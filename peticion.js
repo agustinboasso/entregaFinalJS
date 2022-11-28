@@ -1,10 +1,12 @@
-let divProductos = document.getElementById("productos")
-fetch(`https://api.pokemontcg.io/v2/cards//?key=e2dff93f-b5da-4200-aab4-dd5c0d760cb4`)
-.then((res)=>res.json())
-.then((data)=>{
 
-    //DISPONIBLE I
-    console.log(data)
+fetch("https://api.pokemontcg.io/v2/cards//?key=e2dff93f-b5da-4200-aab4-dd5c0d760cb4")
+.then((res)=>res.json())
+.then(array => imprimirDatos(array))
+function imprimirDatos(array){
+
+    console.log(array.data)
+    console.log(array)
+    array.data.forEach(pokemon => console.log(pokemon))
     for(let cartas of array){
         let nuevaCarta = document.createElement("div")
         nuevaCarta.classList.add("col-12", "col-md-6", "col-lg-4", "my-1")
@@ -25,4 +27,4 @@ fetch(`https://api.pokemontcg.io/v2/cards//?key=e2dff93f-b5da-4200-aab4-dd5c0d76
         })
     }
 
-})
+}
