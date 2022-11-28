@@ -88,8 +88,9 @@ function cargarProductosCarrito(array){
            //Eliminar del DOM
            let cardProducto = document.getElementById(`productoCarrito${productoCarrito.id}`)
            cardProducto.remove()
-           //Eliminar del array de comprar
-           productosEnCarrito.splice(indice, 1) 
+           //Eliminar del array de compras
+            let productoEliminar = array.find(carta => carta.id == productoCarrito.id)
+           //productosEnCarrito.splice(indice, 1) 
            console.log(productosEnCarrito)
            //Eliminar del storage
            localStorage.setItem('coleccion', JSON.stringify(productosEnCarrito))
