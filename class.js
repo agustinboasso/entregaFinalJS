@@ -47,7 +47,7 @@ const cargarColeccion = async()=>{
     const data = await response.json()
     console.log(data)
     for(let carta of data){
-       let cartaNueva = new Carta(carta.id, carta.set, carta.name, carta.image, carta.tcgplayer)
+       let cartaNueva = new Carta(carta.id, carta.set.name, carta.name, carta.images.small, carta.cardmarket.prices.averageSellPrice)
        coleccion.push(cartaNueva)
     }
 }

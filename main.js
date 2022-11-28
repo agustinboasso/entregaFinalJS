@@ -14,34 +14,32 @@ let divCompra = document.getElementById("precioTotal")
 let productosEnCarrito = JSON.parse(localStorage.getItem("coleccion")) || []
 console.log(productosEnCarrito)
 
+fetch(`https://api.pokemontcg.io/v2/cards//?key=e2dff93f-b5da-4200-aab4-dd5c0d760cb4`)
+.then((res)=>res.json())
+.then((data)=>{
 
-
-
-//FUNCTIONS
-/*function mostrarCatalogo(array){
-    divProductos.innerHTML = ""
-    for(let cartas of array){
-        let nuevaCarta = document.createElement("div")
-        nuevaCarta.classList.add("col-12", "col-md-6", "col-lg-4", "my-1")
-        nuevaCarta.innerHTML = `<div id="${cartas.id}" class="card" style="width: 18rem;">
-                                    <img class="card-img-top img-fluid" style="height: 200px;"src="media/${cartas.imagen}" alt="${cartas.carta} de ${cartas.expansion}">
-                                    <div class="card-body">
-                                        <h4 class="card-title">${cartas.carta}</h4>
-                                        <p>Expansion: ${cartas.expansion}</p>
-                                        <p class="${cartas.precio <= 2000 ? "ofertaColor" : "precioComun"}">Precio: ${cartas.precio}</p>
-                                    <button id="agregarBtn${cartas.id}" class="btn btn-outline-success">Agregar al carrito</button>
-                                    </div>
-    </div>`
-        divProductos.appendChild(nuevaCarta)
-        let btnAgregar = document.getElementById(`agregarBtn${cartas.id}`)
-        
-        btnAgregar.addEventListener("click", ()=>{
-            agregarAlCarrito(cartas)
-        })
-    }
-
-}*/
-
+console.log(data.data)
+for(let cartas of data.data){
+    console.log(cartas)
+    let nuevaCarta = document.createElement("div")
+    nuevaCarta.classList.add("col-12", "col-md-6", "col-lg-4", "my-1")
+    nuevaCarta.innerHTML = `<div id="${cartas.id}" class="card" style="width: 18rem;">
+                                <img class="card-img-top img-fluid" style="height: 200px;"src="${cartas.images.small}" alt="${cartas.name} de ${cartas.set.name}">
+                                <div class="card-body">
+                                    <h4 class="card-title">${cartas.name}</h4>
+                                    <p>Expansion: ${cartas.set.name}</p>
+                                    <p class="${cartas.cardmarket.prices.averageSellPrice <= 2000 ? "ofertaColor" : "precioComun"}">Precio: ${cartas.cardmarket.prices.averageSellPrice}</p>
+                                <button id="agregarBtn${cartas.id}" class="btn btn-outline-success">Agregar al carrito</button>
+                                </div>
+</div>`
+    divProductos.appendChild(nuevaCarta)
+    let btnAgregar = document.getElementById(`agregarBtn${cartas.id}`)
+    
+    btnAgregar.addEventListener("click", ()=>{
+        agregarAlCarrito(cartas)
+    })
+}
+})
 //function AGREGAR AL CARRITO
 function agregarAlCarrito(cartas){
     console.log(cartas)
@@ -59,10 +57,10 @@ function agregarAlCarrito(cartas){
         confirmButtonText:`entendido`,
         confirmButtonColor:"green",
         timer: 3000,
-        text:`La carta ${cartas.carta} de la expansión ${cartas.expansion} fue agregada!`,
-        imageUrl:`media/${cartas.imagen}`,
+        text:`La carta ${cartas.name} de la expansión ${cartas.set.name} fue agregada!`,
+        imageUrl:`media/${cartas.images.small}`,
         imageHeight: 400,
-        imageAlt: `${cartas.carta} de ${cartas.expansion}`
+        imageAlt: `${cartas.name} de ${cartas.set.name}`
     })
 }
 //function IMPRIMIR en modal
@@ -71,11 +69,11 @@ function cargarProductosCarrito(array){
     array.forEach((productoCarrito)=>{
         modalBodyCarrito.innerHTML += `
         <div class="card border-primary mb-3" id ="productoCarrito${productoCarrito.id}" style="max-width: 540px;">
-            <img class="card-img-top" height="300px" src="media/${productoCarrito.imagen}" alt="${productoCarrito.titulo}">
+            <img class="card-img-top" height="300px" src="media/${productoCarrito.imagen}" alt="${productoCarrito.name}">
             <div class="card-body">
-                    <h4 class="card-title">${productoCarrito.titulo}</h4>
+                    <h4 class="card-title">${productoCarrito.name}</h4>
                 
-                    <p class="card-text">$${productoCarrito.precio}</p> 
+                    <p class="card-text">$${productoCarrito.cardmarket.prices.averageSellPrice}</p> 
                     <button class= "btn btn-danger" id="botonEliminar${productoCarrito.id}"><i class="fas fa-trash-alt"></i></button>
             </div>    
         </div>
@@ -90,6 +88,8 @@ function cargarProductosCarrito(array){
            cardProducto.remove()
            //Eliminar del array de compras
             let productoEliminar = array.find(carta => carta.id == productoCarrito.id)
+            let posicion = array.indexOf(productoEliminar)
+            array.splice(posicion, 1)
            //productosEnCarrito.splice(indice, 1) 
            console.log(productosEnCarrito)
            //Eliminar del storage
@@ -104,7 +104,7 @@ function cargarProductosCarrito(array){
 //FUNCION QUE CALCULA EL TOTAL
 function compraTotal(array){
     let acumulador = 0
-    acumulador = array.reduce((acc, productoCarrito)=>acc + productoCarrito.precio,0)
+    acumulador = array.reduce((acc, productoCarrito)=>acc + productoCarrito.cardmarket,prices.averageSellPrice,0)
     console.log(acumulador)
     acumulador == 0 ? divCompra.innerHTML = `No hay productos en el carrito`: divCompra.innerHTML = `EL total de su carrito es ${acumulador}`
 }
@@ -146,7 +146,7 @@ function cargarCarta(array){
 //function buscador que se activa con evento change del input para buscar
 function buscarInfo(buscado, array){
     let busqueda = array.filter(
-        (carta) => carta.expansio.toLowerCase().includes(buscado.toLowerCase()) || carta.carta.toLowerCase().includes(buscado.toLowerCase())
+        (carta) => carta.set.name.toLowerCase().includes(buscado.toLowerCase()) || carta.carta.toLowerCase().includes(buscado.toLowerCase())
         // Coincidencias sin includes (libro) => libro.autor.toLowerCase() == buscado.toLowerCase() || libro.titulo.toLowerCase() == buscado.toLowerCase()
     )
     
