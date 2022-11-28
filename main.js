@@ -58,7 +58,7 @@ function agregarAlCarrito(cartas){
         confirmButtonColor:"green",
         timer: 3000,
         text:`La carta ${cartas.name} de la expansión ${cartas.set.name} fue agregada!`,
-        imageUrl:`media/${cartas.images.small}`,
+        imageUrl:`${cartas.images.small}`,
         imageHeight: 400,
         imageAlt: `${cartas.name} de ${cartas.set.name}`
     })
@@ -69,7 +69,7 @@ function cargarProductosCarrito(array){
     array.forEach((productoCarrito)=>{
         modalBodyCarrito.innerHTML += `
         <div class="card border-primary mb-3" id ="productoCarrito${productoCarrito.id}" style="max-width: 540px;">
-            <img class="card-img-top" height="300px" src="media/${productoCarrito.imagen}" alt="${productoCarrito.name}">
+            <img class="card-img-top" height="300px" src="${productoCarrito.images.small}" alt="${productoCarrito.name}">
             <div class="card-body">
                     <h4 class="card-title">${productoCarrito.name}</h4>
                 
