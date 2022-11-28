@@ -18,7 +18,7 @@ console.log(productosEnCarrito)
 
 
 //FUNCTIONS
-/*function mostrarCatalogo(array){
+function mostrarCatalogo(array){
     divProductos.innerHTML = ""
     for(let cartas of array){
         let nuevaCarta = document.createElement("div")
@@ -40,7 +40,7 @@ console.log(productosEnCarrito)
         })
     }
 
-}*/
+}
 
 //function AGREGAR AL CARRITO
 function agregarAlCarrito(cartas){
