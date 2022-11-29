@@ -156,7 +156,32 @@ function buscarInfo(buscado, array){
     : (coincidencia.innerHTML = "", mostrarColeccion(busqueda))
 }
 
-
+//Functions ordenar stock
+function ordenarMayorMenor(array){
+    let mayorMenor = [].concat(array)
+    mayorMenor.sort((a,b) => (b.cardmarket.prices.averageSellPrice - a.cardmarket.price.averageSellPrice))
+    console.log(array)
+    console.log(mayorMenor)
+    mostrarCatalogo(mayorMenor)
+ }
+ function ordenarMenorMayor(array){
+ let menorMayor = [].concat(array)
+    menorMayor.sort((a,b) => (a.cardmarket.price.averageSellPrice - b.cardmarket.price.averageSellPrice))
+    console.log(array)
+    console.log(menorMayor)
+    mostrarCatalogo(menorMayor)
+ }
+ function ordenarAlfabeticamente(array){
+     let alfabeticamente = array.slice()
+     alfabeticamente.sort((a,b) => {
+     if(a.name < b.name)return -1
+     if(a.name > b.name)return 1
+     return 0
+    })
+    console.log(array)
+    console.log(alfabeticamente)
+    mostrarCatalogo(alfabeticamente)
+ }
 
 
 
@@ -169,8 +194,56 @@ botonCarrito.addEventListener("click", ()=>{
 })
 selectOrden.addEventListener("change", ()=>{
     console.log(selectOrden.value)
-
-    
+    if(selectOrden.value == 1){
+        ordenarMayorMenor(coleecion)
+    }else if (selectOrden.value == 2){
+        ordenarMenorMayor(coleccion)
+    }else if (selectOrden.value == 3){
+        ordenarAlfabeticamente(coleccion)
+    }else{
+        mostrarCatalogo(coleccion)
+    }
 }) 
+botonFinalizarCompra.addEventListener("click",()=>{
+    finalizarCompra()
+})
+function finalizarCompra(){
+    Swal.fire({
+        title: 'Está seguro de realizar la compra',
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, seguro',
+        cancelButtonText: 'No, no quiero',
+        confirmButtonColor: 'green',
+        cancelButtonColor: 'red',
+    }).then((result)=>{
+        if(result.isConfirmed){
+            Swal.fire({
+            title: 'Compra realizada',
+            icon: 'success',
+            confirmButtonColor: 'green',
+            text: `Muchas gracias por su compra ha adquirido nuestros productos. `,
+            })
+            //resetear o llevar a cero el array de carrito
+            //Tenemos que researtearlo tanto al array como al localStorage
+            productosEnCarrito =[]
+            localStorage.removeItem("carrito")
+        }else{
+            //Va a entrar cuando ponga
+            Swal.fire({
+                title: 'Compra no realizada',
+                icon: 'info',
+                text: `La compra no ha sido realizada! Atención sus productos siguen en el carrito :D`,
+                confirmButtonColor: 'green',
+                timer:3500
+            })
+        }
+    })
+} 
 
-mostrarCatalogo(coleccion)
+setTimeout(()=>{
+    loaderTexto.innerHTML = ""
+    loader.remove()
+    mostrarCatalogo(estanteria)
+
+}, 3000)
