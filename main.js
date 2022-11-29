@@ -104,7 +104,7 @@ function cargarProductosCarrito(array){
 //FUNCION QUE CALCULA EL TOTAL
 function compraTotal(array){
     let acumulador = 0
-    acumulador = array.reduce((acc, productoCarrito)=>acc + productoCarrito.cardmarket,prices.averageSellPrice,0)
+    acumulador = array.reduce((acc, productoCarrito)=>acc + productoCarrito.cardmarket.prices.averageSellPrice,0)
     console.log(acumulador)
     acumulador == 0 ? divCompra.innerHTML = `No hay productos en el carrito`: divCompra.innerHTML = `EL total de su carrito es ${acumulador}`
 }

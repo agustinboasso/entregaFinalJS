@@ -5,10 +5,10 @@
 }
 body{
     color: black;
-    background-color: antiquewhite;
+    background-color: white;
 }
 .darkMode{
-    color: antiquewhite;
+    color: black;
     background-color: black;
 }
 .card{
