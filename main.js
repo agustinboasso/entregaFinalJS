@@ -9,7 +9,9 @@ let botonCarrito = document.getElementById("botonCarrito")
 let coincidencia = document.getElementById("coincidencia")
 let selectOrden = document.getElementById("selectOrden")
 let divCompra = document.getElementById("precioTotal")
-
+let loaderTexto = document.getElementById("loaderTexto")
+let loader = document.getElementById("loader")
+let botonFinalizarCompra = document.getElementById("botonFinalizarCompra")
 
 let productosEnCarrito = JSON.parse(localStorage.getItem("coleccion")) || []
 console.log(productosEnCarrito)
@@ -162,14 +164,14 @@ function ordenarMayorMenor(array){
     mayorMenor.sort((a,b) => (b.cardmarket.prices.averageSellPrice - a.cardmarket.price.averageSellPrice))
     console.log(array)
     console.log(mayorMenor)
-    mostrarCatalogo(mayorMenor)
+    mostrarColeccion(mayorMenor)
  }
  function ordenarMenorMayor(array){
  let menorMayor = [].concat(array)
     menorMayor.sort((a,b) => (a.cardmarket.price.averageSellPrice - b.cardmarket.price.averageSellPrice))
     console.log(array)
     console.log(menorMayor)
-    mostrarCatalogo(menorMayor)
+    mostrarColeccion(menorMayor)
  }
  function ordenarAlfabeticamente(array){
      let alfabeticamente = array.slice()
@@ -180,7 +182,7 @@ function ordenarMayorMenor(array){
     })
     console.log(array)
     console.log(alfabeticamente)
-    mostrarCatalogo(alfabeticamente)
+    mostrarColeccion(alfabeticamente)
  }
 
 
@@ -201,7 +203,7 @@ selectOrden.addEventListener("change", ()=>{
     }else if (selectOrden.value == 3){
         ordenarAlfabeticamente(coleccion)
     }else{
-        mostrarCatalogo(coleccion)
+        mostrarColeccion(coleccion)
     }
 }) 
 botonFinalizarCompra.addEventListener("click",()=>{
@@ -244,6 +246,6 @@ function finalizarCompra(){
 setTimeout(()=>{
     loaderTexto.innerHTML = ""
     loader.remove()
-    mostrarCatalogo(estanteria)
+    mostrarColeecion(coleccion)
 
 }, 3000)
