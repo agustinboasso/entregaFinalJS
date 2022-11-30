@@ -24,7 +24,7 @@ for(let cartas of data.data){
     let nuevaCarta = document.createElement("div")
     nuevaCarta.classList.add("col-12", "col-md-6", "col-lg-4", "my-1")
     nuevaCarta.innerHTML = `<div id="${cartas.id}" class="card" style="width: 18rem;">
-                                <img class="card-img-top img-fluid" style="height: 200px;"src="${cartas.images.small}" alt="${cartas.name} de ${cartas.set.name}">
+                                <img class="card-img-top img-fluid" style="height: 400px;"src="${cartas.images.small}" alt="${cartas.name} de ${cartas.set.name}">
                                 <div class="card-body">
                                     <h4 class="card-title">${cartas.name}</h4>
                                     <p>Expansion: ${cartas.set.name}</p>
@@ -53,7 +53,7 @@ function agregarAlCarrito(cartas){
     Swal.fire({
         position: `top`,
         title: "Ha agregado producto",
-        icon: `sucess`,
+        icon: `success`,
         confirmButtonText:`entendido`,
         confirmButtonColor:"green",
         timer: 3000,
